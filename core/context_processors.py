@@ -1,21 +1,17 @@
 from products.models import Product, Brand, Category
 
 
-def categories(request):
+def Brands(request):
+
     categories = Category.objects.all()
-    return {"categories": categories}
+    mobile_phones = Category.objects.get(name="Mobile Phone")
 
+    brands = Brand.objects.filter(category=mobile_phones)[:4]
+    brands_with_images = Brand.objects.filter(category__name="Mobile Phone").exclude(image__isnull=True).exclude(image='')
 
-def brands(request):
-    category = Category.objects.get(name="Mobile Phone")
-    brands = Brand.objects.filter(category=category)[:4]
-    
     specific_brands = {}
-    for brand in brands:
-        products = Product.objects.filter(brand=brand, availability="in stock")[:5]
-        specific_brands[brand] = products
-    
-    print(specific_brands)
-    return {"specific_brands": specific_brands}
 
-# brands = ["smasung", "iphone", "microsofy", "micromax"]
+    for brand in brands:
+        specific_brands[brand] = Product.objects.filter(brand=brand, availability="in stock").only("name", "slug")[:5]
+    
+    return {"Mobile_Phone": specific_brands, "categories": categories, "brand_with_images": brands_with_images}
