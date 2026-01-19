@@ -23,6 +23,7 @@ def get_default_category():
 class Brand(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default=get_default_category, related_name="brands")
     brand_name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='brands/', null=True, blank=True)
     slug = models.SlugField()
 
     def __str__(self):

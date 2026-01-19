@@ -13,8 +13,9 @@ class CategoryAdmin(admin.ModelAdmin):
 class BrandAdmin(admin.ModelAdmin):
     list_display = [
         "id",
+        "brand_name",
         "category",
-        "brand_name"
+        "image"
     ]
     prepopulated_fields = {
         "slug": ("brand_name",)
