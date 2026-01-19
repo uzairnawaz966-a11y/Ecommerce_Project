@@ -2,7 +2,6 @@ from django.db import models
 from decimal import Decimal
 
 
-
 # Category_______________
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -51,15 +50,24 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name
-
     @property
     def discounted_price(self):
         if self.discount and self.discount > 0:
             discounted_amount = (self.price * self.discount) / Decimal("100")
             return self.price - discounted_amount
         return self.price
+    
+    def __str__(self):
+        return self.name
+
+
+# Slider Images Handler_______________
+class Slider(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    background_image = models.ImageField(upload_to="slider_images/")    
+
+    def __str__(self):
+        return self.product.name
 
 # Product Specifications_______________
 class Specification(models.Model):
