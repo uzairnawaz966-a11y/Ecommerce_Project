@@ -1,5 +1,5 @@
 from django.contrib import admin
-from products.models import Category, Brand, Product, Image, Specification
+from products.models import Category, Brand, Product, Image, Specification, Slider
 
 
 @admin.register(Category)
@@ -53,4 +53,11 @@ class SpecificationAdmin(admin.ModelAdmin):
         "product",
         "key",
         "value"
+    ]
+
+@admin.register(Slider)
+class SliderAdmin(admin.ModelAdmin):
+    list_display = [
+        "product",
+        "background_image"
     ]
