@@ -154,6 +154,13 @@
         <!-- END #trending-items -->
     
 
+
+
+
+
+
+
+        {% for category in categories %}
         <!-- BEGIN #mobile-list -->
         <div id="mobile-list" class="section-container bg-silver p-t-0">
             <!-- BEGIN container -->
@@ -161,7 +168,7 @@
                 <!-- BEGIN section-title -->
                 <h4 class="section-title clearfix">
                     <a href="#" class="pull-right">SHOW ALL</a>
-                    Mobile Phones
+                    {{ category.name }}
                     <small>Shop and get your favourite phone at amazing prices!</small>
                 </h4>
                 <!-- END section-title -->
@@ -171,21 +178,16 @@
                     <div class="category-sidebar">
                         <ul class="category-list">
                             <li class="list-header">Brands</li>
-                            <li><a href="#">Microsoft</a></li>
-                            <li><a href="#">Samsung</a></li>
-                            <li><a href="#">Apple</a></li>
-                            <li><a href="#">Micromax</a></li>
-                            <li><a href="#">Karbonn</a></li>
-                            <li><a href="#">Intex</a></li>
-                            <li><a href="#">Sony</a></li>
-                            <li><a href="#">HTC</a></li>
-                            <li><a href="#">Asus</a></li>
-                            <li><a href="#">Nokia</a></li>
-                            <li><a href="#">Blackberry</a></li>
-                            <li><a href="#">All Brands</a></li>
+                            {% for brand in category.brands.all %}
+                            <li><a href="#">{{ brand.brand_name }}</a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <!-- END category-sidebar -->
+
+
+
+                   
                     <!-- BEGIN category-detail -->
                     <div class="category-detail">
                         <!-- BEGIN category-item -->
@@ -202,37 +204,40 @@
                             </div>
                         </a>
                         <!-- END category-item -->
+
+
+
+
                         <!-- BEGIN category-item -->
                         <div class="category-item list">
+                            {% for brand in category.brands.all %}
+                            {% for product in brand.products.all %}
                             <!-- BEGIN item-row -->
                             <div class="item-row">
 
-                            {% for mobile in mobile_phones %}
-                            
                                 <!-- BEGIN item -->
                                 <div class="item item-thumbnail">
-                                    <a href="{% url 'product_detail' mobile.slug %}" class="item-image">
-                                        <img src="{{ mobile.image.url }}" alt="" />
-                                        <div class="discount">{{ mobile.discount|floatformat:0 }}% OFF</div>
+                                    <a href="{% url 'product_detail' product.slug %}" class="item-image">
+                                        <img src="{{ product.image.url }}" alt="" />
+                                        <div class="discount">%{{ product.discount|floatformat:0 }}OFF</div>
                                     </a>
                                     <div class="item-info">
                                         <h4 class="item-title">
-                                            <a href="{% url 'product_detail' mobile.slug %}">{{ mobile.name }}<br />16GB</a>
+                                            <a href="{% url 'product_detail' product.slug %}"><br />{{ product.name }}16GB</a>
                                         </h4>
                                         <p class="item-desc">3D Touch. 12MP photos. 4K video.</p>
-                                        <div class="item-price">${{ mobile.discounted_price|floatformat:2 }}</div>
-                                        <div class="item-discount-price">${{ mobile.price }}</div>
+                                        <div class="item-price">${{ product.discounted_price }}</div>
+                                        <div class="item-discount-price">${{ product.price }}</div>
                                     </div>
-                                {% if forloop.counter|divisibleby:3 and not forloop.last %}
                                 </div>
-                                {% endif %}
                                 <!-- END item -->
                             </div>
-                            <!-- END item-row -->
-
                             {% endfor %}
+                            {% endfor %}
+                            <!-- END item-row -->
                         </div>
                         <!-- END category-item -->
+
                     </div>
                     <!-- END category-detail -->
                 </div>
@@ -241,92 +246,13 @@
             <!-- END container -->
         </div>
         <!-- END #mobile-list -->
+        {% endfor %}
 
 
 
 
     
-        <!-- BEGIN #tablet-list -->
-        <div id="tablet-list" class="section-container bg-silver p-t-0">
-            <!-- BEGIN container -->
-            <div class="container">
-                <!-- BEGIN section-title -->
-                <h4 class="section-title clearfix">
-                    <a href="#" class="pull-right">SHOW ALL</a>
-                    Tablet
-                    <small>Shop and get your favourite tablet at amazing prices!</small>
-                </h4>
-                <!-- END section-title -->
-                <!-- BEGIN category-container -->
-                <div class="category-container">
-                    <!-- BEGIN category-sidebar -->
-                    <div class="category-sidebar">
-                        <ul class="category-list">
-                            <li class="list-header">Brands</li>
-                            <li><a href="#">Apple</a></li>
-                            <li><a href="#">HP</a></li>
-                            <li><a href="#">Huawei</a></li>
-                            <li><a href="#">Samsung</a></li>
-                            <li><a href="#">Sony</a></li>
-                            <li><a href="#">All Brands</a></li>
-                        </ul>
-                    </div>
-                    <!-- END category-sidebar -->
-                    <!-- BEGIN category-detail -->
-                    <div class="category-detail">
-                        <!-- BEGIN category-item -->
-                        <a href="#" class="category-item full">
-                            <div class="item">
-                                <div class="item-cover">
-                                    <img src="{% static 'img/huawei-mediapad.jpg' %}" alt="" />
-                                </div>
-                                <div class="item-info bottom">
-                                    <h4 class="item-title">Huawei MediaPad T1 7.0</h4>
-                                    <p class="item-desc">Vibrant colors. Beautifully displayed</p>
-                                    <div class="item-price">$299.00</div>
-                                </div>
-                            </div>
-                        </a>
-                        <!-- END category-item -->
-                        <!-- BEGIN category-item -->
-                        <div class="category-item list">
-                            <!-- BEGIN item-row -->
-                            <div class="item-row">
 
-{% for tablet in tablets %}
-                                
-                                <!-- BEGIN item -->
-                                <div class="item item-thumbnail">
-                                    <a href="{% url 'product_detail' tablet.slug %}" class="item-image">
-                                        <img src="{{ tablet.image.url }}" alt="{{ tablet.name }}" />
-                                        <div class="discount">{{ tablet.discount|floatformat:0 }}% OFF</div>
-                                    </a>
-                                    <div class="item-info">
-                                        <h4 class="item-title">
-                                            <a href="{% url 'product_detail' tablet.slug %}">{{ tablet.name }}<br />32GB</a>
-                                        </h4>
-                                        <p class="item-desc">3D Touch. 12MP photos. 4K video.</p>
-                                        <div class="item-price">${{ tablet.discounted_price|floatformat:2 }}</div>
-                                        <div class="item-discount-price">${{ tablet.price|floatformat:2 }}</div>
-                                    </div>
-                                </div>
-                                <!-- END item -->
-    {% if forloop.counter|divisibleby:3 and not forloop.last %}
-                            </div>
-                            <!-- END item-row -->
-    {% endif %}
-
-{% endfor %}
-                        </div>
-                        <!-- END category-item -->
-                    </div>
-                    <!-- END category-detail -->
-                </div>
-                <!-- END category-container -->
-            </div>
-            <!-- END container -->
-        </div>
-        <!-- END #tablet-list -->
     
         <!-- BEGIN #policy -->
         <div id="policy" class="section-container p-t-30 p-b-30">

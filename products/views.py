@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from products.models import Product, Category, Slider
+from products.models import Product, Category, Slider, ProductImage
 
 
 
@@ -18,7 +18,7 @@ class home(ListView):
 
         categories = Category.objects.all()
         context["categories"] = categories
-        
+
         promotional_products = Product.objects.all().order_by("-discount")[:5]
         context["big_card"] = promotional_products[0]
         context["small_cards"] = promotional_products[1:]
@@ -37,3 +37,12 @@ class home(ListView):
 class ProductDetail(DetailView):
     model = Product
     template_name = "ecommerce/product_detail.html"
+    context_object_name = "Product_detail"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+
+        specifics = self.object.specifications.filter(key__in=["Color", "RAM"])
+        context["specifics"] = specifics
+
+        return context
