@@ -26,7 +26,7 @@ class Brand(models.Model):
     slug = models.SlugField()
 
     def __str__(self):
-        return f"{self.brand_name} ({self.category.name})"
+        return f"{self.brand_name} ( {self.category.name} )"
 
 
 def get_default_subcategory():
@@ -58,7 +58,7 @@ class Product(models.Model):
         return self.price
     
     def __str__(self):
-        return self.name
+        return f"{self.name} ( {self.brand.brand_name} )"
 
 
 # Slider Images Handler_______________
@@ -74,15 +74,14 @@ class Specification(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="specifications")
     key = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.product.name}'s specifications"
 
 
 # Product Images_______________
-class Image(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="productdetail")
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(upload_to="product_gallery/")
 
     def __str__(self):
