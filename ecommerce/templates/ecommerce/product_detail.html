@@ -1,8 +1,5 @@
 {% extends "ecommerce/base.html" %}
 {% load static %}
-
-
-
         {% block title %}
             product details
         {% endblock title %}
@@ -17,7 +14,7 @@
             <div class="container">
                 <!-- BEGIN breadcrumb -->
                 <ul class="breadcrumb m-b-10 f-s-12">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="#">Mobile Phone</a></li>
                     <li><a href="#">Apple</a></li>
                     <li class="active">iPhone 6S Plus</li>
@@ -33,18 +30,15 @@
                             <!-- BEGIN product-thumbnail -->
                             <div class="product-thumbnail">
                                 <ul class="product-thumbnail-list">
-                                    <li class="active"><a href="#" data-click="show-main-image" data-url="assets/img/iphone-6s-plus-2.jpg' %}"><img src="{% static 'img/iphone-6s-plus-2.jpg' %}" alt="" /></a></li>
-                                    <li><a href="#" data-click="show-main-image" data-url="assets/img/iphone-6s-plus-3.jpg' %}"><img src="{% static 'img/iphone-6s-plus-3.jpg' %}" alt="" /></a></li>
-                                    <li><a href="#" data-click="show-main-image" data-url="assets/img/iphone-6s-plus-4.jpg' %}"><img src="{% static 'img/iphone-6s-plus-4.jpg' %}" alt="" /></a></li>
-                                    <li><a href="#" data-click="show-main-image" data-url="assets/img/iphone-6s-plus-5.jpg' %}"><img src="{% static 'img/iphone-6s-plus-5.jpg' %}" alt="" /></a></li>
-                                    <li><a href="#" data-click="show-main-image" data-url="assets/img/iphone-6s-plus-6.jpg' %}"><img src="{% static 'img/iphone-6s-plus-6.jpg' %}" alt="" /></a></li>
-                                    <li><a href="#" data-click="show-main-image" data-url="assets/img/iphone-6s-plus-7.jpg' %}"><img src="{% static 'img/iphone-6s-plus-7.jpg' %}" alt="" /></a></li>
+                                    {% for image in Product_detail.images.all %}
+                                    <li><a href="#" data-click="show-main-image" data-url="{{ image.image.url }}"><img src="{{ image.image.url }}" alt="" /></a></li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <!-- END product-thumbnail -->
                             <!-- BEGIN product-main-image -->
                             <div class="product-main-image" data-id="main-image">
-                                <img src="{% static 'img/iphone-6s-plus.png' %}" alt="" />
+                                <img src="{{ Product_detail.image.url }}" alt="" />
                             </div>
                             <!-- END product-main-image -->
                         </div>
@@ -52,8 +46,10 @@
                         <!-- BEGIN product-info -->
                         <div class="product-info">
                             <!-- BEGIN product-info-header -->
+
                             <div class="product-info-header">
-                                <h1 class="product-title"><span class="label label-success">41% OFF</span> Apple iPhone 6S Plus (16GB) Silver - #89270182 </h1>
+                                <h1 class="product-title"><span class="label label-success">{{ Product_detail.discount|floatformat:0 }}% OFF</span> {{ Product_detail.name }} {% for field in specifics %}{{ field.value }} {% endfor %}
+                                     - #89270182 </h1>
                                 <ul class="product-category">
                                     <li><a href="#">iPhone</a></li>
                                     <li>/</li>
@@ -67,19 +63,15 @@
                             <!-- END product-info-header -->
                             <!-- BEGIN product-warranty -->
                             <div class="product-warranty">
-                                <div class="pull-right">Availability: In stock</div>
-                                <div><b>1 Year</b> Local Manufacturer Warranty</div>
+                                <div class="pull-right">Availability: {{ Product_detail.availability }}</div>
+                                <div><b></b></div>
                             </div>
                             <!-- END product-warranty -->
                             <!-- BEGIN product-info-list -->
                             <ul class="product-info-list">
-                                <li><i class="fa fa-circle"></i> 5.5" Retina HD Display with 3D Touch</li>
-                                <li><i class="fa fa-circle"></i> Fingerprint-resistant oleophobic coating</li>
-                                <li><i class="fa fa-circle"></i> A9 chip with 64-bit</li>
-                                <li><i class="fa fa-circle"></i> Ultrafast 4G LTE Advanced wireless</li>
-                                <li><i class="fa fa-circle"></i> New 12-megapixel iSight camera</li>
-                                <li><i class="fa fa-circle"></i> 4k video recording</li>
-                                <li><i class="fa fa-circle"></i> iOS 9 with Touch ID and Apple Pay</li>
+                                {% for specs in Product_detail.specifications.all %}
+                                <li><i class="fa fa-circle"></i><b>{{ specs.key }}:</b> {{ specs.value }}</li>
+                                {% endfor %}
                             </ul>
                             <!-- END product-info-list -->
                             <!-- BEGIN product-social -->
@@ -96,10 +88,10 @@
                             <!-- BEGIN product-purchase-container -->
                             <div class="product-purchase-container">
                                 <div class="product-discount">
-                                    <span class="discount">$869.00</span>
+                                    <span class="discount">${{ Product_detail.price }}</span>
                                 </div>
                                 <div class="product-price">
-                                    <div class="price">$749.00</div>
+                                    <div class="price">${{ Product_detail.discounted_price }}</div>
                                 </div>
                                 <button class="btn btn-inverse btn-lg" type="submit">ADD TO CART</button>
                             </div>
@@ -108,6 +100,25 @@
                         <!-- END product-info -->
                     </div>
                     <!-- END product-detail -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    
                     <!-- BEGIN product-tab -->
                     <div class="product-tab">
                         <!-- BEGIN #product-tab -->
@@ -445,7 +456,7 @@
                                     <div class="col-md-5">
                                         <!-- BEGIN review-form -->
                                         <div class="review-form">
-                                            <form action="product_detail.html" name="review_form" method="POST">
+                                            {% comment %} <form action="product_detail.html" name="review_form" method="POST"> {% endcomment %}
                                                 <h2>Write a review</h2>
                                                 <div class="form-group">
                                                     <label for="name">Name <span class="text-danger">*</span></label>
@@ -502,13 +513,13 @@
                     <div class="col-md-2 col-sm-4">
                         <!-- BEGIN item -->
                         <div class="item item-thumbnail">
-                            <a href="{% url 'product_detail' %}" class="item-image">
+                            {% comment %} <a href="{% url 'product_detail' %}" class="item-image"> {% endcomment %}
                                 <img src="{% static 'img/iphone.png' %}" alt="">
                                 <div class="discount">15% OFF</div>
                             </a>
                             <div class="item-info">
                                 <h4 class="item-title">
-                                    <a href="{% url 'product_detail' %}">iPhone 6s Plus<br>16GB</a>
+                                    {% comment %} <a href="{% url 'product_detail' %}">iPhone 6s Plus<br>16GB</a> {% endcomment %}
                                 </h4>
                                 <p class="item-desc">3D Touch. 12MP photos. 4K video.</p>
                                 <div class="item-price">$649.00</div>
@@ -520,7 +531,7 @@
                     <div class="col-md-2 col-sm-4">
                         <!-- BEGIN item -->
                         <div class="item item-thumbnail">
-                            <a href="{% url 'product_detail' %}" class="item-image">
+                            {% comment %} <a href="{% url 'product_detail' %}" class="item-image"> {% endcomment %}
                                 <img src="{% static 'img/samsung-note5.png' %}" alt="">
                                 <div class="discount">32% OFF</div>
                             </a>
@@ -538,7 +549,7 @@
                     <div class="col-md-2 col-sm-4">
                         <!-- BEGIN item -->
                         <div class="item item-thumbnail">
-                            <a href="{% url 'product_detail' %}" class="item-image">
+                            {% comment %} <a href="{% url 'product_detail' %}" class="item-image"> {% endcomment %}
                                 <img src="{% static 'img/iphone-se.png' %}" alt="">
                                 <div class="discount">20% OFF</div>
                             </a>
@@ -556,13 +567,13 @@
                     <div class="col-md-2 col-sm-4">
                         <!-- BEGIN item -->
                         <div class="item item-thumbnail">
-                            <a href="{% url 'product_detail' %}" class="item-image">
+                            {% comment %} <a href="{% url 'product_detail' %}" class="item-image"> {% endcomment %}
                                 <img src="{% static 'img/zenfone2.png' %}" alt="">
                                 <div class="discount">15% OFF</div>
                             </a>
                             <div class="item-info">
                                 <h4 class="item-title">
-                                    <a href="{% url 'product_detail' %}">Assus ZenFone 2<br>‏(ZE550ML)</a>
+                                    {% comment %} <a href="{% url 'product_detail' %}">Assus ZenFone 2<br>‏(ZE550ML)</a> {% endcomment %}
                                 </h4>
                                 <p class="item-desc">See What Others Can’t See</p>
                                 <div class="item-price">$399.00</div>
@@ -574,7 +585,7 @@
                     <div class="col-md-2 col-sm-4">
                         <!-- BEGIN item -->
                         <div class="item item-thumbnail">
-                            <a href="{% url 'product_detail' %}" class="item-image">
+                            {% comment %} <a href="{% url 'product_detail' %}" class="item-image"> {% endcomment %}
                                 <img src="{% static 'img/xperia-z.png' %}" alt="">
                                 <div class="discount">32% OFF</div>
                             </a>
@@ -592,7 +603,7 @@
                     <div class="col-md-2 col-sm-4">
                         <!-- BEGIN item -->
                         <div class="item item-thumbnail">
-                            <a href="{% url 'product_detail' %}" class="item-image">
+                            {% comment %} <a href="{% url 'product_detail' %}" class="item-image"> {% endcomment %}
                                 <img src="{% static 'img/lumia-532.png' %}" alt="">
                                 <div class="discount">20% OFF</div>
                             </a>

@@ -1,10 +1,18 @@
 from django.contrib import admin
-from products.models import Category, Brand, Product, Image, Specification
+from products.models import (
+    Category,
+    Brand,
+    Product,
+    Specification,
+    Slider,
+    ProductImage,
+)
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = [
+        "id",
         "name",
     ]
 
@@ -39,9 +47,10 @@ class ProductAdmin(admin.ModelAdmin):
     }
 
 
-@admin.register(Image)
-class ImageAdmin(admin.ModelAdmin):
+@admin.register(ProductImage)
+class ProductImageAdmin(admin.ModelAdmin):
     list_display = [
+        "id",
         "product",
         "image"
     ]
@@ -50,7 +59,16 @@ class ImageAdmin(admin.ModelAdmin):
 @admin.register(Specification)
 class SpecificationAdmin(admin.ModelAdmin):
     list_display = [
+        "id",
         "product",
         "key",
         "value"
+    ]
+
+@admin.register(Slider)
+class SliderAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "product",
+        "background_image"
     ]

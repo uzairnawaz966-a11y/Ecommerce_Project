@@ -2,7 +2,6 @@ from django.db import models
 from decimal import Decimal
 
 
-
 # Category_______________
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -27,7 +26,7 @@ class Brand(models.Model):
     slug = models.SlugField()
 
     def __str__(self):
-        return f"{self.brand_name} ({self.category.name})"
+        return f"{self.brand_name} ( {self.category.name} )"
 
 
 def get_default_subcategory():
@@ -51,30 +50,38 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name
-
     @property
     def discounted_price(self):
         if self.discount and self.discount > 0:
             discounted_amount = (self.price * self.discount) / Decimal("100")
             return self.price - discounted_amount
         return self.price
+    
+    def __str__(self):
+        return f"{self.name} ( {self.brand.brand_name} )"
+
+
+# Slider Images Handler_______________
+class Slider(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    background_image = models.ImageField(upload_to="slider_images/")    
+
+    def __str__(self):
+        return self.product.name
 
 # Product Specifications_______________
 class Specification(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="specifications")
     key = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.product.name}'s specifications"
 
 
 # Product Images_______________
-class Image(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="productdetail")
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(upload_to="product_gallery/")
 
     def __str__(self):
