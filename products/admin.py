@@ -6,6 +6,7 @@ from products.models import (
     Specification,
     Slider,
     ProductImage,
+    ProductComponent,
 )
 
 
@@ -39,6 +40,7 @@ class ProductAdmin(admin.ModelAdmin):
         "brand",
         "image",
         "discount",
+        "description",
         "created_at",
         "updated_at"
     ]
@@ -71,4 +73,14 @@ class SliderAdmin(admin.ModelAdmin):
         "id",
         "product",
         "background_image"
+    ]
+
+@admin.register(ProductComponent)
+class ProductComponentAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "name",
+        "product",
+        "description",
+        "image"
     ]

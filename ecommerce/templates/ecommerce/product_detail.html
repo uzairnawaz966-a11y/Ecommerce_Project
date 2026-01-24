@@ -3,11 +3,7 @@
         {% block title %}
             product details
         {% endblock title %}
-
-        {% block body %}
-
-        
-        
+    {% block body %}
         <!-- BEGIN #product -->
         <div id="product" class="section-container p-t-20">
             <!-- BEGIN container -->
@@ -20,7 +16,6 @@
                     <li class="active">iPhone 6S Plus</li>
                 </ul>
                 <!-- END breadcrumb -->
-                
                 <!-- BEGIN product -->
                 <div class="product">
                     <!-- BEGIN product-detail -->
@@ -77,11 +72,11 @@
                             <!-- BEGIN product-social -->
                             <div class="product-social">
                                 <ul>
-                                    <li><a href="javascript:;" class="facebook" data-toggle="tooltip" data-trigger="hover" data-title="Facebook" data-placement="top"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="javascript:;" class="twitter" data-toggle="tooltip" data-trigger="hover" data-title="Twitter" data-placement="top"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="javascript:;" class="google-plus" data-toggle="tooltip" data-trigger="hover" data-title="Google Plus" data-placement="top"><i class="fa fa-google-plus"></i></a></li>
-                                    <li><a href="javascript:;" class="whatsapp" data-toggle="tooltip" data-trigger="hover" data-title="Whatsapp" data-placement="top"><i class="fa fa-whatsapp"></i></a></li>
-                                    <li><a href="javascript:;" class="tumblr" data-toggle="tooltip" data-trigger="hover" data-title="Tumblr" data-placement="top"><i class="fa fa-tumblr"></i></a></li>
+                                    <li><a href="https://www.facebook.com/" class="facebook" data-toggle="tooltip" data-trigger="hover" data-title="Facebook" data-placement="top"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="https://x.com/" class="twitter" data-toggle="tooltip" data-trigger="hover" data-title="Twitter" data-placement="top"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="https://www.google.com/" class="google-plus" data-toggle="tooltip" data-trigger="hover" data-title="Google Plus" data-placement="top"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="https://web.whatsapp.com/" class="whatsapp" data-toggle="tooltip" data-trigger="hover" data-title="Whatsapp" data-placement="top"><i class="fa fa-whatsapp"></i></a></li>
+                                    <li><a href="https://www.tumblr.com/" class="tumblr" data-toggle="tooltip" data-trigger="hover" data-title="Tumblr" data-placement="top"><i class="fa fa-tumblr"></i></a></li>
                                 </ul>
                             </div>
                             <!-- END product-social -->
@@ -100,25 +95,6 @@
                         <!-- END product-info -->
                     </div>
                     <!-- END product-detail -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    
                     <!-- BEGIN product-tab -->
                     <div class="product-tab">
                         <!-- BEGIN #product-tab -->
@@ -133,70 +109,33 @@
                             <!-- BEGIN #product-desc -->
                             <div class="tab-pane fade active in" id="product-desc">
                                 <!-- BEGIN product-desc -->
-                                <div class="product-desc">
-                                    <div class="image">
-                                        <img src="{% static 'img/product-main.jpg' %}" alt="" />
-                                    </div>
-                                    <div class="desc">
-                                        <h4>iPhone 6s</h4>
-                                        <p>
-                                            The moment you use iPhone 6s, you know you’ve never felt anything like it. With a single press, 3D Touch lets you do more than ever before. Live Photos bring your memories to life in a powerfully vivid way. And that’s just the beginning. Take a deeper look at iPhone 6s, and you’ll find innovation on every level.
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- END product-desc -->
-                                <!-- BEGIN product-desc -->
                                 <div class="product-desc right">
                                     <div class="image">
-                                        <img src="{% static 'img/product-3dtouch.jpg' %}" alt="" />
+                                        <img src="{{ Product_detail.image.url }}" alt="" />
                                     </div>
                                     <div class="desc">
-                                        <h4>3D Touch</h4>
+                                        <h4>{{ Product_detail.name }}</h4>
                                         <p>
-                                            The original iPhone introduced the world to Multi-Touch, forever changing the way people experience technology. With 3D Touch, you can do things that were never possible before. It senses how deeply you press the display, letting you do all kinds of essential things more quickly and simply. And it gives you real-time feedback in the form of subtle taps from the all-new Taptic Engine.
+                                            {{ Product_detail.description }}
                                         </p>
                                     </div>
                                 </div>
                                 <!-- END product-desc -->
+                                {% for component in Product_detail.components.all %}
                                 <!-- BEGIN product-desc -->
-                                <div class="product-desc">
+                                <div class="product-desc {% if forloop.counter|divisibleby:2 %}right{% endif %}">
                                     <div class="image">
-                                        <img src="{% static 'img/product-cameras.jpg' %}" alt="" />
+                                        <img src="{{ component.image.url }}" alt="" />
                                     </div>
                                     <div class="desc">
-                                        <h4>Cameras</h4>
+                                        <h4>{{ component.name }}</h4>
                                         <p>
-                                            The 12-megapixel iSight camera captures sharp, detailed photos. It takes brilliant 4K video, up to four times the resolution of 1080p HD video. iPhone 6s also takes selfies worthy of a self-portrait with the new 5-megapixel FaceTime HD camera. And it introduces Live Photos, a new way to relive your favorite memories. It captures the moments just before and after your picture and sets it in motion with just the press of a finger.
+                                            {{ component.description }}
                                         </p>
                                     </div>
                                 </div>
                                 <!-- END product-desc -->
-                                <!-- BEGIN product-desc -->
-                                <div class="product-desc right">
-                                    <div class="image">
-                                        <img src="{% static 'img/product-technology.jpg' %}" alt="" />
-                                    </div>
-                                    <div class="desc">
-                                        <h4>Technology</h4>
-                                        <p>
-                                            iPhone 6s is powered by the custom-designed 64-bit A9 chip. It delivers performance once found only in desktop computers. You’ll experience up to 70 percent faster CPU performance, and up to 90 percent faster GPU performance for all your favorite graphics-intensive games and apps.
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- END product-desc -->
-                                <!-- BEGIN product-desc -->
-                                <div class="product-desc">
-                                    <div class="image">
-                                        <img src="{% static 'img/product-design.jpg' %}" alt="" />
-                                    </div>
-                                    <div class="desc">
-                                        <h4>Design</h4>
-                                        <p>
-                                            Innovation isn’t always obvious to the eye, but look a little closer at iPhone 6s and you’ll find it’s been fundamentally improved. The enclosure is made from a new alloy of 7000 Series aluminum — the same grade used in the aerospace industry. The cover glass is the strongest, most durable glass used in any smartphone. And a new rose gold finish joins space gray, silver, and gold.
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- END product-desc -->
+                                {% endfor %}
                             </div>
                             <!-- END #product-desc -->
                             <!-- BEGIN #product-info -->
@@ -456,22 +395,27 @@
                                     <div class="col-md-5">
                                         <!-- BEGIN review-form -->
                                         <div class="review-form">
-                                            {% comment %} <form action="product_detail.html" name="review_form" method="POST"> {% endcomment %}
+                                            <form name="review_form" method="POST">
+                                            <form action="" name="review_form" method="POST">
+                                                {% csrf_token %}
                                                 <h2>Write a review</h2>
                                                 <div class="form-group">
-                                                    <label for="name">Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="name" />
+                                                    <label for="id_name">Name <span class="text-danger">*</span></label>
+                                                    {{ form.name }}
+                                                    {{ form.name.errors }}
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="email">Title <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="email" />
+                                                    <label for="id_title">Title <span class="text-danger">*</span></label>
+                                                    {{ form.title }}
+                                                    {{ form.title.errors }}
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="review">Review <span class="text-danger">*</span></label>
-                                                    <textarea class="form-control" rows="8" id="review"></textarea>
+                                                    <label for="id_review">Review <span class="text-danger">*</span></label>
+                                                    {{ form.review }}
+                                                    {{ form.review.errors }}
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="email">Rating  <span class="text-danger">*</span></label>
+                                                    <label for="id_rating">Rating  <span class="text-danger">*</span></label>
                                                     <div class="rating rating-selection" data-rating="true" data-target="rating">
                                                         <i class="fa fa-star-o" data-value="2"></i>
                                                         <i class="fa fa-star-o" data-value="4"></i>
@@ -482,14 +426,8 @@
                                                             <span class="rating-comment-tooltip">Click to rate</span>
                                                         </span>
                                                     </div>
-                                                    <select name="rating" class="hide">
-                                                        <option value="2">2</option>
-                                                        <option value="4">4</option>
-                                                        <option value="6">6</option>
-                                                        <option value="8">8</option>
-                                                        <option value="10">10</option>
-                                                    </select>
-                                                </div>            
+                                                    {{ form.rating }}       
+                                                    {{ form.rating.errors }}
                                                 <button type="submit" class="btn btn-inverse btn-lg">Submit Review</button>
                                             </form>
                                         </div>
@@ -506,7 +444,6 @@
                     <!-- END product-tab -->
                 </div>
                 <!-- END product -->
-                
                 <!-- BEGIN similar-product -->
                 <h4 class="m-b-15 m-t-30">You Might Also Like</h4>
                 <div class="row row-space-10">
@@ -624,6 +561,4 @@
             <!-- END container -->
         </div>
         <!-- END #product -->
-        
-
     {% endblock body %}
