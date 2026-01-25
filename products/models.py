@@ -44,6 +44,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     brand = models.ForeignKey(Brand, on_delete=models.SET_DEFAULT, default=get_default_subcategory, related_name="products")
     image = models.ImageField(upload_to="product_main_image/")
+    description = models.TextField(default="No Description")
     discount = models.PositiveIntegerField(default=0)
     availability = models.CharField(max_length=15, choices=AVAILABILITY_CHOICES, default="in stock")
     slug = models.SlugField(unique=True)
@@ -86,3 +87,13 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"{self.product.name}'s image"
+    
+
+class ProductComponent(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="components")
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to="product_components/")
+
+    def __str__(self):
+        return f"{self.name} ( {self.product.name} )"

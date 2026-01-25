@@ -1,6 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
-from user_accounts.models import Profile, Address, Review
+from user_accounts.models import Profile, Address, RatingAndReview
 
 
 @admin.register(Profile)
@@ -27,13 +26,13 @@ class AddressAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(Review)
-class ReviewAdmin(admin.ModelAdmin):
+@admin.register(RatingAndReview)
+class RatingAndReviewAdmin(admin.ModelAdmin):
     list_display = [
+        "user",
         "name",
         "title",
         "review",
-        "image",
         "rating",
-        "date_and_time"
+        "date_and_time",
     ]

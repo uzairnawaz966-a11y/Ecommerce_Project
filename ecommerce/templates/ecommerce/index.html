@@ -1,11 +1,8 @@
 {% extends "ecommerce/base.html" %}
 {% load static %}
-
-
 {% block title %}
     Home
 {% endblock title %}
-
 {% block body %}
         <!-- BEGIN #slider -->
         <div id="slider" class="section-container p-0 bg-black-darker">
@@ -43,10 +40,6 @@
             <!-- END carousel -->
         </div>
         <!-- END #slider -->
-    
-
-
-
         <!-- BEGIN #promotions -->
         <div id="promotions" class="section-container bg-white">
             <!-- BEGIN container -->
@@ -77,8 +70,6 @@
                         <!-- END promotion -->
                     </div>
                     <!-- END col-6 -->
-
-
                     <!-- BEGIN col-3 -->
                     <div class="col-md-3 col-sm-6">
                         {% for small_card in small_cards %}
@@ -100,16 +91,12 @@
                     <!-- END col-3 -->
                      {% endif %}
                     {% endfor %}
-
-
-                    
                 </div>
                 <!-- END row -->
             </div>
             <!-- END container -->
         </div>
         <!-- END #promotions -->
-    
         <!-- BEGIN #trending-items -->
         <div id="trending-items" class="section-container bg-silver">
             <!-- BEGIN container -->
@@ -122,11 +109,10 @@
                     <small>Shop and get your favourite items at amazing prices!</small>
                 </h4>
                 <!-- END section-title -->
-            
                 <!-- BEGIN row -->
                 <div class="row row-space-10">
                     <!-- BEGIN col-2 -->
-{% for product in product_list %}
+                        {% for product in product_list %}
                         <div class="col-md-2 col-sm-4">
                             <!-- BEGIN item -->
                             <div class="item item-thumbnail">
@@ -145,21 +131,13 @@
                             </div>
                             <!-- END item -->
                         </div>
-{% endfor %}
+                        {% endfor %}
                 </div>
                 <!-- END row -->
             </div>
             <!-- END container -->
         </div>
         <!-- END #trending-items -->
-    
-
-
-
-
-
-
-
         {% for category in categories %}
         <!-- BEGIN #mobile-list -->
         <div id="mobile-list" class="section-container bg-silver p-t-0">
@@ -168,7 +146,7 @@
                 <!-- BEGIN section-title -->
                 <h4 class="section-title clearfix">
                     <a href="#" class="pull-right">SHOW ALL</a>
-                    {{ category.name }}
+                    {{ category.name }}{% if not forloop.last %}s{% endif %}
                     <small>Shop and get your favourite phone at amazing prices!</small>
                 </h4>
                 <!-- END section-title -->
@@ -184,37 +162,36 @@
                         </ul>
                     </div>
                     <!-- END category-sidebar -->
-
-
-
-                   
-                    <!-- BEGIN category-detail -->
-                    <div class="category-detail">
-                        <!-- BEGIN category-item -->
-                        <a href="#" class="category-item full">
-                            <div class="item">
-                                <div class="item-cover">
-                                    <img src="{% static 'img/samsung-s7-edge.jpg' %}" alt="" />
-                                </div>
-                                <div class="item-info bottom">
-                                    <h4 class="item-title">Samsung Galaxy s7 Edge + Geat 360 + Gear VR</h4>
-                                    <p class="item-desc">Redefine what a phone can do</p>
-                                    <div class="item-price">$799.00</div>
-                                </div>
-                            </div>
-                        </a>
-                        <!-- END category-item -->
-
-
-
-
+                    {% for brand in category.brands.all %}
+                        {% if forloop.first %}
+                            {% for product in brand.products.all %}
+                                {% if forloop.first %}
+                                <!-- BEGIN category-detail -->
+                                <div class="category-detail">
+                                    <!-- BEGIN category-item -->
+                                    <a href="{% url 'product_detail' product.slug %}" class="category-item full">
+                                        <div class="item">
+                                            <div class="item-cover">
+                                                <img src="{{ product.image.url }}" alt="" />
+                                            </div>
+                                            <div class="item-info bottom">
+                                                <h4 class="item-title">{{ product.name }}</h4>
+                                                <p class="item-desc">Redefine what a phone can do</p>
+                                                <div class="item-price">${{ product.discounted_price }}</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!-- END category-item -->
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
                         <!-- BEGIN category-item -->
                         <div class="category-item list">
                             {% for brand in category.brands.all %}
                             {% for product in brand.products.all %}
                             <!-- BEGIN item-row -->
                             <div class="item-row">
-
                                 <!-- BEGIN item -->
                                 <div class="item item-thumbnail">
                                     <a href="{% url 'product_detail' product.slug %}" class="item-image">
@@ -223,9 +200,9 @@
                                     </a>
                                     <div class="item-info">
                                         <h4 class="item-title">
-                                            <a href="{% url 'product_detail' product.slug %}"><br />{{ product.name }}16GB</a>
+                                            <a href="{% url 'product_detail' product.slug %}"><br />{{ product.name }}</a>
                                         </h4>
-                                        <p class="item-desc">3D Touch. 12MP photos. 4K video.</p>
+                                        <p class="item-desc">{% for specification in product.specifications.all %}{{ specification.value }},{% endfor %}</p>
                                         <div class="item-price">${{ product.discounted_price }}</div>
                                         <div class="item-discount-price">${{ product.price }}</div>
                                     </div>
@@ -233,11 +210,10 @@
                                 <!-- END item -->
                             </div>
                             {% endfor %}
-                            {% endfor %}
                             <!-- END item-row -->
+                            {% endfor %}
                         </div>
                         <!-- END category-item -->
-
                     </div>
                     <!-- END category-detail -->
                 </div>
@@ -247,13 +223,6 @@
         </div>
         <!-- END #mobile-list -->
         {% endfor %}
-
-
-
-
-    
-
-    
         <!-- BEGIN #policy -->
         <div id="policy" class="section-container p-t-30 p-b-30">
             <!-- BEGIN container -->
@@ -305,7 +274,6 @@
             <!-- END container -->
         </div>
         <!-- END #policy -->
-    
         <!-- BEGIN #subscribe -->
         <div id="subscribe" class="section-container bg-silver p-t-30 p-b-30">
             <!-- BEGIN container -->

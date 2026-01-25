@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from products.models import Product
+# from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 
@@ -36,7 +38,7 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
     
-class Review(models.Model):
+class RatingAndReview(models.Model):
     RATING_CHOICES = [
         (1, "1 Star"),
         (2, "2 Star"),
@@ -44,9 +46,38 @@ class Review(models.Model):
         (4, "4 Star"),
         (5, "5 Star"),
     ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
     name = models.CharField(max_length=100)
     title = models.CharField(max_length=255)
     review = models.TextField()
-    image = models.ForeignKey(Profile, on_delete=models.CASCADE)
     rating = models.IntegerField(choices=RATING_CHOICES)
     date_and_time = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "product")
+
+
+
+# class CustomUserManager(BaseUserManager):
+
+#     def create_user(self, email, password, **extra_fields):
+#         if not email:
+#             raise ValueError("Email Field is required!")
+#         if not password:
+#             raise ValueError("Any password for user is compulsory for Login")
+        
+#         email = self.normalize_email(email)
+#         user = self.model(email=email, **extra_fields)
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         return user
+    
+#     def create_superuser(self, email, password, **extra_fields):
+#         if not email:
+#             raise ValueError("Email is required!")
+#         if not password:
+#             raise ValueError("Any password is compulsory for Login")
+#         email = self.normalize_email(email)
+#         user = self.model(email=email)
